@@ -11,7 +11,7 @@ internal static class Constants
 
     internal static class Culture
     {
-        internal static string Russian = "ru-RU";
-        internal static string English = "en-US";
+        internal static string Russian = "ru";
+        internal static string English = "en";
     }
 }

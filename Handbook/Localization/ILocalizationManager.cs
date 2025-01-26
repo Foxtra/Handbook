@@ -3,15 +3,21 @@
 /// <summary>
 /// Интерфейс для переключения локализации
 /// </summary>
-internal interface ILocalizationManager
+public interface ILocalizationManager
 {
     /// <summary>
-    /// Установить русскую локализацию
+    /// Получение локализированной строки
     /// </summary>
-    void SetRussianCulture();
+    /// <param name="key">Ключ-идентификатор строки в файле ресурсов локализации</param>
+    /// <returns></returns>
+    string this[string key] { get; }
 
     /// <summary>
-    /// Установить английскую локализацию
+    /// Устанавливает текущую культуру (меняет локализацию)
     /// </summary>
-    void SetEnglishCulture();
+    /// <param name="cultureName">
+    /// Имя культуры для утановки ("en", "ru").
+    /// Должно быть валидным значением <see cref="CultureInfo"/>.
+    /// </param>
+    void SetCulture(string cultureName);
 }

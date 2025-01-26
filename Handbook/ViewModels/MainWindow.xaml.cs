@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using AutoMapper;
 using Handbook.Localization;
 using Handbook.Models;
-using Handbook.Services.Implementation;
 using Handbook.Services.Interfaces;
 using static Handbook.Constants;
 
@@ -10,21 +10,26 @@ namespace Handbook;
 
 public partial class MainWindow : Window
 {
-    private readonly IApiService _apiService;
+    private readonly IApiService apiService;
+    private readonly IMapper mapper;
+    private readonly ILocalizationManager localizationManager;
 
     private bool isRussianInterface = true;
 
-    public MainWindow()
+    public MainWindow(IApiService apiService, IMapper mapper, ILocalizationManager localizationManager)
     {
-        InitializeComponent();
+        this.apiService = apiService;
+        this.mapper = mapper;
+        this.localizationManager = localizationManager;
+        DataContext = localizationManager;
 
-        _apiService = new ApiService();
+        InitializeComponent();
+        deviceGrid.DataContext = localizationManager;
 
         Loaded += MainWindow_Loaded;
         downloadButton.Click += DownloadButton_Click;
         deviceGrid.SelectionChanged += DeviceGrid_SelectionChanged;
         languageSwitchButton.Click += LanguageSwitchButton_Click;
-        deviceGrid.AutoGenerateColumns = false;
     }
 
     private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -33,8 +38,8 @@ public partial class MainWindow : Window
         List<DeviceType> deviceTypes = null;
         try
         {
-            var deviceTypesDto = await _apiService.LoadDeviceTypes();
-            deviceTypes = App.Mapper.Map<List<DeviceType>>(deviceTypesDto);
+            var deviceTypesDto = await apiService.LoadDeviceTypes();
+            deviceTypes = mapper.Map<List<DeviceType>>(deviceTypesDto);
         }
         catch (Exception ex)
         {
@@ -57,13 +62,13 @@ public partial class MainWindow : Window
         var deviceTypeHandlers = new Dictionary<string, Func<Task>>
         {
             { 
-                DeviceTypes.Cylinders, async () => deviceGrid.ItemsSource = App.Mapper.Map<List<Cylinder>> (await _apiService.LoadCylinders()) 
+                DeviceTypes.Cylinders, async () => deviceGrid.ItemsSource = mapper.Map<List<Cylinder>> (await apiService.LoadCylinders()) 
             },
             { 
-                DeviceTypes.Pumps, async () => deviceGrid.ItemsSource = App.Mapper.Map<List<Pump>> (await _apiService.LoadPumps()) 
+                DeviceTypes.Pumps, async () => deviceGrid.ItemsSource = mapper.Map<List<Pump>> (await apiService.LoadPumps()) 
             },
             { 
-                DeviceTypes.Valves, async () => deviceGrid.ItemsSource = App.Mapper.Map<List<Valve>> (await _apiService.LoadValves()) 
+                DeviceTypes.Valves, async () => deviceGrid.ItemsSource = mapper.Map<List<Valve>> (await apiService.LoadValves()) 
             }
         };
 
@@ -104,12 +109,12 @@ public partial class MainWindow : Window
     {
         if (isRussianInterface)
         {
-            LocalizationManager.Instance.SetEnglishCulture();
+            localizationManager.SetCulture(Culture.English);
             isRussianInterface = !isRussianInterface;
         }
         else
         {
-            LocalizationManager.Instance.SetRussianCulture();
+            localizationManager.SetCulture(Culture.Russian);
             isRussianInterface = !isRussianInterface;
         }
     }

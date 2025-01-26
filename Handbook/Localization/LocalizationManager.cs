@@ -1,41 +1,44 @@
 ﻿using Handbook.Localization;
-using Handbook.Resources;
 using System.ComponentModel;
 using System.Globalization;
+using System.Resources;
 
 namespace Handbook;
 
-public class LocalizationManager : INotifyPropertyChanged, ILocalizationManager
+public class LocalizationManager : ILocalizationManager, INotifyPropertyChanged
 {
-    private static LocalizationManager _instance;
+    private readonly ResourceManager _resourceManager;
 
-    public static LocalizationManager Instance => _instance ??= new LocalizationManager();
+    private CultureInfo _currentCulture;
+
+    public LocalizationManager(ResourceManager resourceManager)
+    {
+        _resourceManager = resourceManager;
+        CurrentCulture = CultureInfo.CurrentCulture;
+    }
+
+    public CultureInfo CurrentCulture
+    {
+        get => _currentCulture;
+        private set
+        {
+            if (_currentCulture != value)
+            {
+                _currentCulture = value;
+                OnPropertyChanged(string.Empty); // Уведомляем об изменении всех привязок
+            }
+        }
+    }
+
+    public string this[string key] =>
+        _resourceManager.GetString(key, CurrentCulture) ?? $"[{key}]";
+
+    public void SetCulture(string cultureName)
+    {
+        CurrentCulture = new CultureInfo(cultureName);
+    }
 
     public event PropertyChangedEventHandler PropertyChanged;
-
-    public string this[string key] => Strings.ResourceManager.GetString(key, Thread.CurrentThread.CurrentUICulture);
-
-    public void SetRussianCulture()
-    {
-        SetCulture(Constants.Culture.Russian);
-    }
-
-    public void SetEnglishCulture()
-    {
-        SetCulture(Constants.Culture.English);
-    }
-
-    private void SetCulture(string cultureCode)
-    {
-        Thread.CurrentThread.CurrentUICulture = new CultureInfo(cultureCode);
-        Thread.CurrentThread.CurrentCulture = new CultureInfo(cultureCode);
-
-        // Уведомление об изменении всех привязанных свойств
-        OnPropertyChanged(string.Empty);
-    }
-
-    private void OnPropertyChanged(string propertyName)
-    {
+    protected virtual void OnPropertyChanged(string propertyName) =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
 }

@@ -1,22 +1,22 @@
-﻿using AutoMapper;
-using Handbook.Mapping;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
 namespace Handbook;
 
 public partial class App : Application
 {    
-    public static IMapper Mapper { get; private set; }
+    public static IServiceProvider ServiceProvider { get; private set; }
+
+    public App(IServiceProvider serviceProvider)
+    {
+        ServiceProvider = serviceProvider;
+    }
 
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
 
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<MappingProfile>();
-        });
-
-        Mapper = config.CreateMapper();
+        var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+        mainWindow.Show();
     }
 }
