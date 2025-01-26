@@ -14,6 +14,7 @@ public class Program
     {
         var serviceCollection = new ServiceCollection();
         serviceCollection.AddAutoMapper(typeof(MappingProfile));
+        serviceCollection.AddHttpClient();
         serviceCollection.AddScoped<IApiService, ApiService>();
         serviceCollection.AddSingleton(new ResourceManager("Handbook.Resources.Strings", typeof(Resources.Strings).Assembly));
         serviceCollection.AddSingleton<ILocalizationManager, LocalizationManager>();

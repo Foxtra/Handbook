@@ -9,9 +9,9 @@ public sealed class ApiService : IApiService
 {
     private readonly HttpClient _httpClient;
 
-    public ApiService()
+    public ApiService(HttpClient httpClient)
     {
-        _httpClient = new HttpClient();
+        _httpClient = httpClient ?? new HttpClient();
     }
     public async Task<IReadOnlyCollection<CylinderDto>> LoadCylinders()
     {
@@ -43,7 +43,7 @@ public sealed class ApiService : IApiService
         }
         catch (HttpRequestException)
         {
-            Console.WriteLine("Неуспешный запрос по следующему по адресу: {Url}", url);
+            Console.WriteLine($"Неуспешный запрос по следующему по адресу: {url}");
             throw;
         }
 
@@ -56,7 +56,7 @@ public sealed class ApiService : IApiService
 
         if (result == null)
         {
-            Console.WriteLine("Пустой результат в результате десериализации json: {Json}", json);            
+            Console.WriteLine($"Пустой результат в результате десериализации json: {json}");            
         }
 
         return result;
