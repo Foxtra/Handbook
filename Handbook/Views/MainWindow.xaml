@@ -5,15 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Handbook"
         mc:Ignorable="d"
-        Title="Handbook" Height="450" Width="800">
+        Title="Handbook" Height="475" Width="800">
     <Grid>
         <ComboBox x:Name="devicesComboBox" HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="downloadButton" Content="{Binding [Download], Source={x:Static  local:LocalizationManager.Instance}}" HorizontalAlignment="Center" Margin="0,30,0,0" VerticalAlignment="Top" Height="22" Width="60"/>
         <DataGrid x:Name="deviceGrid" Margin="30,100,30,189">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Идентификатор" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Обозначение" Binding="{Binding Code}" />
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="{Binding [Id], Source={x:Static  local:LocalizationManager.Instance}}" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="{Binding [Code], Source={x:Static  local:LocalizationManager.Instance}}" Binding="{Binding Code}" />
+                <DataGridTextColumn Header="{Binding [Name], Source={x:Static  local:LocalizationManager.Instance}}" Binding="{Binding Name}" />
             </DataGrid.Columns>
         </DataGrid>
         <TextBox x:Name="deviceTextBox" HorizontalAlignment="Center" Margin="0,289,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="740" Height="80"/>

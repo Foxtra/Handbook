@@ -132,4 +132,13 @@
   <data name="LanguageSwitch" xml:space="preserve">
     <value>Change language</value>
   </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
 </root>

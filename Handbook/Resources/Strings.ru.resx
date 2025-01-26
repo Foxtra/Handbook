@@ -132,4 +132,13 @@
   <data name="LanguageSwitch" xml:space="preserve">
     <value>Сменить язык</value>
   </data>
+  <data name="Id" xml:space="preserve">
+    <value>Идентификатор</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Наименование</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Обозначение</value>
+  </data>
 </root>
