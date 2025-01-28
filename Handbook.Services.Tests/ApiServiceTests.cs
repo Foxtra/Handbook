@@ -8,7 +8,7 @@ namespace Handbook.Services.Tests
 {
     public sealed class ApiServiceTests
     {
-        [Fact(DisplayName = "Положительный сценарий загрузки цилиндров")]
+        [Fact(DisplayName = "РџРѕР·РёС‚РёРІРЅС‹Р№ СЃС†РµРЅР°СЂРёР№ Р·Р°РіСЂСѓР·РєРё С†РёР»РёРЅРґСЂРѕРІ")]
         public async Task LoadCylinders_ShouldReturn()
         {
             // Arrange
@@ -33,7 +33,7 @@ namespace Handbook.Services.Tests
             Assert.Equal("Cylinder1", result.First().Name);
         }
 
-        [Fact(DisplayName = "Пустой массив в ответе при загрузке цилиндров")]
+        [Fact(DisplayName = "РЎС†РµРЅР°СЂРёР№ СЃ РѕС‚СЃСѓС‚СЃС‚РІРёРµ СЌР»РµРјРµРЅС‚РѕРІ")]
         public async Task LoadCylinders_ShouldHandleEmptyResponse()
         {
             // Arrange
@@ -54,7 +54,7 @@ namespace Handbook.Services.Tests
             Assert.Empty(result); 
         }
 
-        [Fact (DisplayName = "Ошибка 404 метода загрузки цилиндров")]
+        [Fact (DisplayName = "РЎС†РµРЅР°СЂРёР№ РїСЂРё РєРѕС‚РѕСЂРѕРј API РѕС‚РІРµС‡Р°РµС‚ РѕС€РёР±РєРѕР№ 404")]
         public async Task LoadCylinders_NotFound_ShouldThrow()
         {
             // Arrange
@@ -69,7 +69,7 @@ namespace Handbook.Services.Tests
             await Assert.ThrowsAsync<HttpRequestException>(async () => await apiService.LoadCylinders());
         }
 
-        [Fact(DisplayName = "Ошибка некорректный JSON")]
+        [Fact(DisplayName = "РЎС†РµРЅР°СЂРёР№ РЅРµРІР°Р»РёРґРЅРѕРіРѕ С„РѕСЂРјР°С‚Р° JSON")]
         public async Task LoadCylinders_JsonInvalid_ShouldThrow()
         {
             // Arrange
@@ -86,7 +86,7 @@ namespace Handbook.Services.Tests
             await Assert.ThrowsAsync<JsonException>(async () => await apiService.LoadCylinders());
         }
 
-        [Fact(DisplayName = "Тестирование обработки ответа большого объёма")]
+        [Fact(DisplayName = "РЎС†РµРЅР°СЂРёР№ Р±РѕР»СЊС€РѕРіРѕ РєРѕР»РёС‡РµСЃС‚РІР° СЌР»РµРјРµРЅС‚РѕРІ")]
         public async Task LoadCylinders_ShouldHandleLargeDataSet()
         {
             // Arrange
